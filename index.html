@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EZ-Cool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://player.vimeo.com/api/player.js"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; margin:0; padding:0; background:#111; overflow-x:hidden; color:white; }
+    #bg-video-container { 
+      position: fixed; top:50%; left:50%; transform: translate(-50%, -50%); width:1000px; height:600px; z-index:-1; pointer-events:none; 
+    }
+    .menu-modal { 
+      display:none; /* ensures menus are hidden initially */
+      position: fixed; inset:0; 
+      background: rgba(0,0,0,0.9); 
+      z-index:50; 
+      flex-direction: column; 
+      justify-content:center; 
+      align-items:center; 
+      padding:20px; 
+    }
+    .menu-modal iframe { width:1000px; height:600px; border-radius:12px; }
+    .menu-modal h2 { font-size:2rem; margin-bottom:20px; }
+    .menu-buttons { display:flex; gap:20px; margin-top:20px; flex-wrap: wrap; justify-content:center; }
+  </style>
+</head>
+<body>
+
+  <!-- Top Bar -->
+  <header class="flex items-center justify-between px-6 py-4 bg-gray-800 shadow-md">
+    <div class="flex items-center gap-3">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/controller.png" class="w-8 h-8" alt="icon">
+      <h1 class="text-2xl font-extrabold tracking-wide">EZ-Cool</h1>
+    </div>
+    <nav class="flex gap-4">
+      <!-- My Games button -->
+      <button class="menu-btn px-5 py-3 rounded-full bg-indigo-600 hover:bg-indigo-500 shadow-lg" onclick="openMyGames()">
+        My Games
+      </button>
+      <!-- Get App button -->
+      <button class="menu-btn px-5 py-3 rounded-full bg-green-600 hover:bg-green-500 shadow-lg" onclick="openHowTo()">
+        Get App
+      </button>
+    </nav>
+  </header>
+
+  <!-- Background Vimeo Video -->
+  <div id="bg-video-container">
+    <div style="padding:56.25% 0 0 0;position:relative;">
+      <iframe id="bg-video" src="https://player.vimeo.com/video/1111197312?autoplay=1&muted=0&loop=1&controls=0&background=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
+    </div>
+  </div>
+
+  <!-- My Games Menu -->
+  <div id="my-games-modal" class="menu-modal flex">
+    <h2>🎮 My Games</h2>
+    <div class="menu-buttons">
+      <a href="https://scratch.mit.edu/projects/1206733249/" target="_blank" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg shadow-lg">V-Bucks Clicker Website</a>
+      <a href="https://www.dropbox.com/scl/fi/zz2mp8lub6p8cqiyb426h/V-bucks-clickerSetup.zip?dl=1" target="_blank" class="px-6 py-3 bg-green-600 hover:bg-green-500 rounded-lg shadow-lg">V-Bucks Clicker App</a>
+    </div>
+    <button onclick="closeMyGames()" class="mt-6 px-6 py-3 bg-red-600 hover:bg-red-500 rounded-lg shadow-lg">Close</button>
+  </div>
+
+  <!-- How To Video Menu -->
+  <div id="howto-modal" class="menu-modal flex">
+    <h2>📖 How To</h2>
+    <iframe src="https://go.screenpal.com/player/cTjqhMn2Txv?width=100%&height=100%&ff=1&title=0" frameborder="0" allowfullscreen></iframe>
+    <div class="menu-buttons">
+      <a href="https://www.dropbox.com/scl/fi/ul51uuwdo3j5izq3erygd/Setup.zip?dl=1" target="_blank" class="px-6 py-3 bg-yellow-600 hover:bg-yellow-500 rounded-lg shadow-lg">Download</a>
+      <button onclick="closeHowTo()" class="px-6 py-3 bg-red-600 hover:bg-red-500 rounded-lg shadow-lg">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const bgVideoPlayer = new Vimeo.Player(document.getElementById('bg-video'));
+
+    function openMyGames(){
+      document.getElementById('my-games-modal').style.display = 'flex';
+      bgVideoPlayer.setVolume(0);
+    }
+
+    function closeMyGames(){
+      document.getElementById('my-games-modal').style.display = 'none';
+      bgVideoPlayer.setVolume(1);
+    }
+
+    function openHowTo(){
+      document.getElementById('howto-modal').style.display = 'flex';
+      bgVideoPlayer.setVolume(0);
+    }
+
+    function closeHowTo(){
+      document.getElementById('howto-modal').style.display = 'none';
+      bgVideoPlayer.setVolume(1);
+    }
+
+    // Ensure no menu is shown when page loads
+    window.onload = () => {
+      document.getElementById('my-games-modal').style.display = 'none';
+      document.getElementById('howto-modal').style.display = 'none';
+      bgVideoPlayer.play().catch(err=>console.log('Autoplay blocked',err));
+    };
+  </script>
+
+</body>
+</html>
